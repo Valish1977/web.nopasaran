@@ -1026,11 +1026,24 @@ export default class Event extends Vue {
 
   private async createData(data: any) {
     this.eventItem = data;
+    if (this.eventItem.tplparam !== undefined ) {
+      if( this.eventItem.tplparam.event !== undefined && this.eventItem.tplparam.event.topBackground !== undefined ) {
+        this.theme.topBackground = this.eventItem.tplparam.event.topBackground;
+      }
+      const url = ((this.location === '') ? '../../theme/' : '../../../theme/');
+      bus.$emit('loadWindow', {value: true, info: 'Event.vue:getBase64FromImageUrl://end function'});
+      const img: any = new Image();
+      img.onload = () => {
+        bus.$emit('loadWindow', {value: false, info: 'Event.vue:getBase64FromImageUrl://end function'});
+      }
+      img.src = url + this.theme.topBackground;
+    }
     for ( const i in this.eventItem.ematerials ) { // отображаем материалы
       if (this.eventItem.ematerials.hasOwnProperty(i)) {
         this.materials.push(i);
       }
     }
+
     // контент формируются после загрузки всех изображений
   }
   private getText(name: string, data: any = null): string {
