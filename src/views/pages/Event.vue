@@ -294,10 +294,60 @@ export default class Event extends Vue {
     if (this.location !== '') {
       https = 'nopasaran.su/event/new/' + this.id + '/' + this.location;
     }
+    const qrPng = qr.imageSync(
+      https,
+      { type: 'png', color: [0, 0, 0], transparent: false, margin: 0 },
+     // { type: 'png', color: [178, 34, 34], transparent: false }, // красный
+    );
     const body: any = [];
     const url = ((this.location === '') ? '../../theme/' : '../../../theme/');
     const background = await this.getBase64FromImageUrl(url + 'sticker2.png');
     const stickerIcon = await this.getBase64FromImageUrl(url + 'politic.jpg');
+    const styles = {
+      tableExample: {
+        margin: [0, 0, 0, 5],
+      },
+      header: {
+        fontSize: 18,
+        bold: true,
+        alignment: 'right',
+        margin: [0, 0, 0, 0],
+      },
+      header2: {
+        fontSize: 15,
+        bold: true,
+        alignment: 'right',
+        margin: [0, 0, 0, 0],
+      },
+      speaker: {
+        fontSize: 11,
+        alignment: 'right',
+        margin: [0, 0, 0, 0],
+        color: '#000000',
+        /* color: '#B22222', // красный */
+      },
+      subheader: {
+        fontSize: 11,
+        color: '#000000',
+        /* //color: '#B22222', // красный */
+      },
+      superMargin: {
+        margin: [20, 0, 40, 0],
+        fontSize: 15,
+      },
+    };
+
+    let content: any = [];
+    // Те кому дорог СССР
+    for ( let i = 0; i <= 3; i++ ) {
+      const row: any = [];
+      for (let c = 0; c <= 1; c++) {
+        const item: any = {table: {body: [[{border: [false, false, false, false],margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right',table: {widths: [208, 40], body: [[{image: background,width: 218,margin: [0, 0, 0, 0],alignment: 'left'},{}]]},layout: {defaultBorder: false}}],[{border: [false, false, false, false],margin: [0, 0, 0, 0],style: 'tableExample',alignment: 'left',table: {widths: [200, 60], body: [[{text: [{text: this.getText('url') + "\n", alignment: 'left', style: 'speaker'},{text: this.clubLink + "\n", alignment: 'left', style: 'speaker'},{text: this.getText('adress'), alignment: 'left', style: 'speaker'}]},{border: [false, false, false, false], image: qrPng, width: 60, margin: [0, 0, 0, 0], alignment: 'center'}]]},layout: {defaultBorder: false}}]]}};
+        row.push(item);
+      }
+      content.push(row);
+    }
+
     const def: any = {
         // background: {image: background},
         pageSize: 'A4',
@@ -309,139 +359,51 @@ export default class Event extends Vue {
           style: 'tableExample',
           table: {
             widths: [289, 289],
-            body: [
-            [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false],margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right',table: {widths: [208, 40], body: [[{image: background,width: 218,margin: [0, 0, 0, 0],alignment: 'left'},{}]]},layout: {defaultBorder: false}}],[{border: [false, false, false, false],margin: [0, 0, 0, 0],style: 'tableExample',alignment: 'left',table: {widths: [215, 70], body: [[{text: [{text: this.getText('url') + "\n", alignment: 'left', style: 'speaker'},{text: this.clubLink + "\n", alignment: 'left', style: 'speaker'},{text: this.getText('adress'), alignment: 'left', style: 'speaker'}]},{ qr: https, fit: '70' }]]},layout: {defaultBorder: false}}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false],margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right',table: {widths: [208, 40], body: [[{image: background,width: 218,margin: [0, 0, 0, 0],alignment: 'left'},{}]]},layout: {defaultBorder: false}}],[{border: [false, false, false, false],margin: [0, 0, 0, 0],style: 'tableExample',alignment: 'left',table: {widths: [215, 70], body: [[{text: [{text: this.getText('url') + "\n", alignment: 'left', style: 'speaker'},{text: this.clubLink + "\n", alignment: 'left', style: 'speaker'},{text: this.getText('adress'), alignment: 'left', style: 'speaker'}]},{ qr: https, fit: '70' }]]},layout: {defaultBorder: false}}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false],margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right',table: {widths: [208, 40], body: [[{image: background,width: 218,margin: [0, 0, 0, 0],alignment: 'left'},{}]]},layout: {defaultBorder: false}}],[{border: [false, false, false, false],margin: [0, 0, 0, 0],style: 'tableExample',alignment: 'left',table: {widths: [215, 70], body: [[{text: [{text: this.getText('url') + "\n", alignment: 'left', style: 'speaker'},{text: this.clubLink + "\n", alignment: 'left', style: 'speaker'},{text: this.getText('adress'), alignment: 'left', style: 'speaker'}]},{ qr: https, fit: '70' }]]},layout: {defaultBorder: false}}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false],margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right',table: {widths: [208, 40], body: [[{image: background,width: 218,margin: [0, 0, 0, 0],alignment: 'left'},{}]]},layout: {defaultBorder: false}}],[{border: [false, false, false, false],margin: [0, 0, 0, 0],style: 'tableExample',alignment: 'left',table: {widths: [215, 70], body: [[{text: [{text: this.getText('url') + "\n", alignment: 'left', style: 'speaker'},{text: this.clubLink + "\n", alignment: 'left', style: 'speaker'},{text: this.getText('adress'), alignment: 'left', style: 'speaker'}]},{ qr: https, fit: '70' }]]},layout: {defaultBorder: false}}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false],margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right',table: {widths: [208, 40], body: [[{image: background,width: 218,margin: [0, 0, 0, 0],alignment: 'left'},{}]]},layout: {defaultBorder: false}}],[{border: [false, false, false, false],margin: [0, 0, 0, 0],style: 'tableExample',alignment: 'left',table: {widths: [215, 70], body: [[{text: [{text: this.getText('url') + "\n", alignment: 'left', style: 'speaker'},{text: this.clubLink + "\n", alignment: 'left', style: 'speaker'},{text: this.getText('adress'), alignment: 'left', style: 'speaker'}]},{ qr: https, fit: '70' }]]},layout: {defaultBorder: false}}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false],margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right',table: {widths: [208, 40], body: [[{image: background,width: 218,margin: [0, 0, 0, 0],alignment: 'left'},{}]]},layout: {defaultBorder: false}}],[{border: [false, false, false, false],margin: [0, 0, 0, 0],style: 'tableExample',alignment: 'left',table: {widths: [215, 70], body: [[{text: [{text: this.getText('url') + "\n", alignment: 'left', style: 'speaker'},{text: this.clubLink + "\n", alignment: 'left', style: 'speaker'},{text: this.getText('adress'), alignment: 'left', style: 'speaker'}]},{ qr: https, fit: '70' }]]},layout: {defaultBorder: false}}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false],margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right',table: {widths: [208, 40], body: [[{image: background,width: 218,margin: [0, 0, 0, 0],alignment: 'left'},{}]]},layout: {defaultBorder: false}}],[{border: [false, false, false, false],margin: [0, 0, 0, 0],style: 'tableExample',alignment: 'left',table: {widths: [215, 70], body: [[{text: [{text: this.getText('url') + "\n", alignment: 'left', style: 'speaker'},{text: this.clubLink + "\n", alignment: 'left', style: 'speaker'},{text: this.getText('adress'), alignment: 'left', style: 'speaker'}]},{ qr: https, fit: '70' }]]},layout: {defaultBorder: false}}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false],margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right',table: {widths: [208, 40], body: [[{image: background,width: 218,margin: [0, 0, 0, 0],alignment: 'left'},{}]]},layout: {defaultBorder: false}}],[{border: [false, false, false, false],margin: [0, 0, 0, 0],style: 'tableExample',alignment: 'left',table: {widths: [215, 70], body: [[{text: [{text: this.getText('url') + "\n", alignment: 'left', style: 'speaker'},{text: this.clubLink + "\n", alignment: 'left', style: 'speaker'},{text: this.getText('adress'), alignment: 'left', style: 'speaker'}]},{ qr: https, fit: '70' }]]},layout: {defaultBorder: false}}]]}},
-            ],
-          ],
+            body: content,
         },
       },
     ],
     
-    styles: {
-        tableExample: {
-          margin: [0, 0, 0, 5],
-        },
-        header: {
-          fontSize: 18,
-          bold: true,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-        },
-        header2: {
-          fontSize: 15,
-          bold: true,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-        },
-        speaker: {
-          fontSize: 11,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-          color: '#000000',
-          /* color: '#B22222', // красный */
-        },
-        subheader: {
-          fontSize: 11,
-          color: '#000000',
-          /* //color: '#B22222', // красный */
-        },
-        superMargin: {
-          margin: [20, 0, 40, 0],
-          fontSize: 15,
-        },
-      },
+    styles: styles,
     };
-        const defOld: any = { // серп и молот
+    
+    content = [];
+    // серп и молот
+    for ( let i = 0; i <= 3; i++ ) {
+      const row: any = [];
+      for (let c = 0; c <= 1; c++) {
+        const item: any = {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [70, '*', 70], body: [[{image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, {border: [false, false, false, false], image: qrPng, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, {image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.clubLink, alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}};
+        row.push(item);
+      }
+      content.push(row);
+    }
+    const defOld: any = { // серп и молот
         // background: {image: background},
-        pageSize: 'A4',
-        pageMargins: [0, 0, 0, 0],
-        pageOrientation: 'portrait',
-        content: [
+      pageSize: 'A4',
+      pageMargins: [0, 0, 0, 0],
+      pageOrientation: 'portrait',
+      content: [
         {
           margin: [0, 0, 0, 0],
           style: 'tableExample',
           table: {
             widths: [298, 298],
-            body: [
-            [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [70, '*', 70], body: [[{image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.clubLink, alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [70, '*', 70], body: [[{image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.clubLink, alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [70, '*', 70], body: [[{image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.clubLink, alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [70, '*', 70], body: [[{image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.clubLink, alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [70, '*', 70], body: [[{image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.clubLink, alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [70, '*', 70], body: [[{image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.clubLink, alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [70, '*', 70], body: [[{image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.clubLink, alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [70, '*', 70], body: [[{image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 70, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.clubLink, alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ],
-          ],
+            body: content,
+          },
         },
-      },
-    ],
+      ],
     
-    styles: {
-        tableExample: {
-          margin: [0, 0, 0, 5],
-        },
-        header: {
-          fontSize: 18,
-          bold: true,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-        },
-        header2: {
-          fontSize: 15,
-          bold: true,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-        },
-        speaker: {
-          fontSize: 11,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-          color: '#000000',
-          /* color: '#B22222', // красный */
-        },
-        subheader: {
-          fontSize: 11,
-          color: '#000000',
-          /* //color: '#B22222', // красный */
-        },
-        superMargin: {
-          margin: [20, 0, 40, 0],
-          fontSize: 15,
-        },
-      },
+    styles: styles,
     };
+    content = [];
+    for ( let i = 0; i <= 2; i++ ) {
+      const row: any = [];
+      for (let c = 0; c <= 1; c++) {
+        const item: any = {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], image: qrPng, width: 100, margin: [0, 0, 0, 0], alignment: 'center'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}};
+        row.push(item);
+      }
+      content.push(row);
+    }
     const def2: any = {
         pageSize: 'A4',
         pageMargins: [10, 10, 10, 10],
@@ -451,75 +413,23 @@ export default class Event extends Vue {
       style: 'tableExample',
         table: {
           widths: [182, 182, 182],
-          body: [
-            [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{ qr: https, fit: '100' }], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ],
-          ],
+          body: content,
         },
       },
     ],
-    styles: {
-        tableExample: {
-          margin: [0, 0, 0, 5],
-        },
-        header: {
-          fontSize: 18,
-          bold: true,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-        },
-        header2: {
-          fontSize: 15,
-          bold: true,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-        },
-        speaker: {
-          fontSize: 11,
-          bold: true,
-          alignment: 'right',
-          italics: true,
-          margin: [0, 0, 0, 0],
-          color: '#B22222',
-        },
-        subheader: {
-          fontSize: 11,
-          color: '#B22222',
-        },
-        superMargin: {
-          margin: [20, 0, 40, 0],
-          fontSize: 15,
-        },
-      },
+    styles: styles,
     };
 
+    content = [];
+    for ( let i = 0; i <= 2; i++ ) {
+      const row: any = [];
+      for (let c = 0; c <= 1; c++) {
+        const item: any = {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, {border: [false, false, false, false], image: qrPng, width: 100, margin: [0, 0, 0, 0], alignment: 'center'}, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}};
+        row.push(item);
+      }
+      content.push(row);
+    }
+    
     const def3: any = {
         pageSize: 'A4',
         pageMargins: [10, 10, 10, 10],
@@ -529,73 +439,11 @@ export default class Event extends Vue {
       style: 'tableExample',
         table: {
           widths: [182, 182, 182],
-          body: [
-            [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ], [
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-              // tslint:disable-next-line:max-line-length
-              {table: {body: [[{border: [false, false, false, false], margin: [0, 5, 0, 0], text: this.eventItem.topic, alignment: 'center', style: 'subheader'}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], style: 'tableExample', alignment: 'right', table: {widths: [22, 100, 22], body: [[{image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}, { qr: https, fit: '100' }, {image: stickerIcon, width: 30, margin: [0, 0, 0, 0], alignment: 'center'}]]}, layout: {defaultBorder: false}}], [{border: [false, false, false, false], margin: [0, 0, 0, 0], text: this.getText('url'), alignment: 'center', style: 'speaker'}], [{border: [false, false, false, false], margin: [0, 0, 0, 5], text: this.getText('adress'), alignment: 'center', style: 'speaker'}]]}},
-            ],
-          ],
+          body: content,
         },
       },
     ],
-    styles: {
-        tableExample: {
-          margin: [0, 0, 0, 5],
-        },
-        header: {
-          fontSize: 18,
-          bold: true,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-        },
-        header2: {
-          fontSize: 15,
-          bold: true,
-          alignment: 'right',
-          margin: [0, 0, 0, 0],
-        },
-        speaker: {
-          fontSize: 11,
-          bold: true,
-          alignment: 'right',
-          italics: true,
-          margin: [0, 0, 0, 0],
-          color: '#B22222',
-        },
-        subheader: {
-          fontSize: 11,
-          color: '#B22222',
-        },
-        superMargin: {
-          margin: [20, 0, 40, 0],
-          fontSize: 15,
-        },
-      },
+    styles: styles,
     };
     const typedDefinition: pdfMake.TDocumentDefinitions = def;
     pdfMake.createPdf(typedDefinition).download('sticker.pdf', ((): any => {
@@ -613,6 +461,14 @@ export default class Event extends Vue {
     if (this.location !== '') {
       https = 'https://nopasaran.su/event/old/' + this.id + '/' + this.location;
     }
+    const qrPng = qr.imageSync(
+      https,
+      {
+        type: 'png',
+        color: [178, 34, 34],
+        transparent: false,
+      },
+    );
     const content: any = [];
     content.push(
     [
@@ -698,9 +554,7 @@ export default class Event extends Vue {
                 {
                   rowSpan: 3,
                   border: [false, false, false, false],
-                  qr: https,
-                  foreground: [178, 34, 34],
-                  fit: '90',
+                  image: qrPng,
                   width: 100,
                   margin: [0, 0, 0, 0],
                   alignment: 'center',
