@@ -13,7 +13,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.1",
     "@types/pdfmake": "^0.1.2",
     "@types/qr-image": "^3.2.1",
-    "bootstrap-vue": "^2.0.0-rc.11",
+    "bootstrap-vue": "^2.0.0-rc.12",
     "pdfmake": "^0.1.39",
     "qr-image-color": "^3.2.1",
     "vue": "^2.5.17",
